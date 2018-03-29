@@ -40,7 +40,8 @@ RUN pip3 install uwsgi
 
 # setup all the configfiles
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY nginx-app.conf /etc/nginx/sites-available/default
+COPY nginx-app.conf /etc/nginx/conf.d/nginx-app.conf
+COPY uwsgi.ini /tmp
 COPY supervisor-app.conf /etc/supervisor/conf.d/
 
 # COPY requirements.txt and RUN pip install BEFORE adding the rest of your code, this will cause Docker's caching mechanism
@@ -53,10 +54,9 @@ COPY . /home/docker/code/
 
 # install django, normally you would remove this step because your project would already
 # be installed in the code/app/ directory
-RUN django-admin.py startproject project /home/docker/code/app/
+RUN django-admin.py startproject project /home/docker/code/app/ &&\
+    python3 /home/docker/code/app/project/manage.py runserver
 
-#WORKDIR /home/docker/
-#
+WORKDIR /home/docker/
 EXPOSE 80
 CMD ["supervisord", "-n", "-c", "/home/docker/code/supervisor-app.conf"]
-#CMD ["supervisord", "-n"]
