@@ -21,7 +21,7 @@ RUN apk update && apk add \
 	build-base=0.5-r0 \
 	linux-headers=4.4.6-r2 \
 	pcre-dev=8.41-r1\
-	postgresql-dev=10.3.0-r1 \
+	postgresql-dev=10.3-r0 \
 	musl-dev=1.1.18-r3 \
 	libxml2-dev=2.9.7-r0 \
 	libxslt-dev=1.1.31-r0 \
