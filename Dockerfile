@@ -56,6 +56,7 @@ COPY . /home/docker/code/
 RUN django-admin.py startproject project /home/docker/code/app/
 
 #WORKDIR /home/docker/
-#CMD ["supervisord", "-n", "-c", "/home/docker/code/supervisor-app.conf"]
+#
 EXPOSE 80
-CMD ["supervisord", "-n"]
+CMD ["supervisord", "-n", "-c", "/home/docker/code/supervisor-app.conf"]
+#CMD ["supervisord", "-n"]
