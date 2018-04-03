@@ -22,6 +22,9 @@ RUN apk update && apk add \
     rm -r /root/.cache && \
     pip3 install uwsgi
 
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.project.default.conf /etc/nginx/conf.d/default.conf
+
 # Allow HTTPS traffic in/out of container
 EXPOSE 443
 # port 80 was already opened in nginx:1.13.10-alpine Dockerfile 
