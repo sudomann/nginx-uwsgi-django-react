@@ -1,30 +1,67 @@
-FROM nginx:1.13.10-alpine
+# Copyright 2013 Thatcher Peskens
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+FROM alpine:latest
+
+MAINTAINER Dockerfiles
 
 # Install required packages and remove the apt packages cache when done.
 #apk update && apk upgrade && \
-RUN apk update && apk add \
-    bash=4.4.19-r1 \
-    git=2.15.0-r1 \
-	openssh=7.5_p1-r8 \
-	python3=3.6.3-r9 \
-	python3-dev=3.6.3-r9 \
-	build-base=0.5-r0 \
-	linux-headers=4.4.6-r2 \
-	postgresql-dev=10.3-r0 \
-	musl-dev=1.1.18-r3 \
-	libxml2-dev=2.9.7-r0 \
-	supervisor=3.3.3-r1 && \
+RUN apk update 
+RUN apk add bash \
+	git \
+	openssh \
+	python3 \
+	python3-dev \
+	gcc \
+	build-base \
+	linux-headers \
+	pcre-dev \
+	postgresql-dev \
+	musl-dev \
+	libxml2-dev \
+	libxslt-dev \
+	nginx \
+	curl \
+	supervisor && \
 	python3 -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     pip3 install --upgrade pip setuptools && \
     rm -r /root/.cache && \
     pip3 install --upgrade pip setuptools && \
-    rm -r /root/.cache && \
-    pip3 install uwsgi
+    rm -r /root/.cache
 
+# install uwsgi now because it takes a little while
+RUN pip3 install uwsgi
+
+# setup all the configfiles
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY nginx.project.default.conf /etc/nginx/conf.d/default.conf
+COPY nginx-app.conf /etc/nginx/sites-available/default
+COPY supervisor-app.conf /etc/supervisor/conf.d/
 
-# Allow HTTPS traffic in/out of container
-EXPOSE 443
-# port 80 was already opened in nginx:1.13.10-alpine Dockerfile 
+# COPY requirements.txt and RUN pip install BEFORE adding the rest of your code, this will cause Docker's caching mechanism
+# to prevent re-installing (all your) dependencies when you made a change a line or two in your app.
+COPY app/requirements.txt /home/docker/code/app/
+RUN pip3 install -r /home/docker/code/app/requirements.txt
+
+# add (the rest of) our code
+COPY . /home/docker/code/
+
+# install django, normally you would remove this step because your project would already
+# be installed in the code/app/ directory
+# RUN django-admin.py startproject website /home/docker/code/app/
+
+WORKDIR /home/docker/
+EXPOSE 8113
+CMD ["supervisord", "-n", "-c", "/home/docker/code/supervisor-app.conf"]
