@@ -1,11 +1,13 @@
-version: '2'
+version: '3.6'
 services:
-  db:
-    image: postgres
-  web_production:
-    build: .
-    image: wordpresshosting_web_nginx
+  web:
+    build: web
     ports:
-      - "8113:8113"
-    depends_on:
-      - db
+      - "80:80"
+      - "443:443"
+  app:
+    build: app
+  worker:
+    build: worker
+  db:
+    build: db
