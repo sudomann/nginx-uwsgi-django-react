@@ -27,7 +27,6 @@ RUN pip3 install uwsgi
 ENV APP_SERVICE_ROOT_DIR=/home/base/
 ENV DJANGO_PROJECT_NAME=sampledjangoproject
 
-#  npx create-react-app $APP_SERVICE_ROOT_DIR/frontend
 # copy requirements.txt file in the directory containing this
 # Dockerfile (on host machine) to $APP_SERVICE_ROOT_DIR/ in the container's file system
 # and install its contents
@@ -47,10 +46,10 @@ COPY . $APP_SERVICE_ROOT_DIR/
 # default django page show up on first run, confirming it works
 # Normally, you would copy your django project folder
 #into $APP_SERVICE_ROOT_DIR/ (in container)
-#RUN django-admin.py startproject djangoprojectname .
+#RUN django-admin.py startproject $DJANGO_PROJECT_NAME .
 # uncomment the copy command above^ if
 # you don't already have a django project ready
 
-RUN DJANGO_ENV=development python3 $APP_SERVICE_ROOT_DIR/backend/manage.py migrate
+RUN DJANGO_ENV=development python3 $APP_SERVICE_ROOT_DIR/$DJANGO_PROJECT_NAME/manage.py migrate
 # start uwsgi
 ENTRYPOINT uwsgi --master --ini $APP_SERVICE_ROOT_DIR/uwsgi.ini
