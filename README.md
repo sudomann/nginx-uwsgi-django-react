@@ -1,4 +1,4 @@
-# alpine-nginx-uwsgi-django
+# alpine-nginx-uwsgi-django (DEPRECATED) this repo has been abdandoned in favor of a forked and heavily modified version
 A multi container setup for a nginx-uwsgi-django stack
 
 ####Will eventually be adding more details/instructions concerning use of this
