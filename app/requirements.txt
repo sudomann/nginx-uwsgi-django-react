@@ -1,2 +1,2 @@
-Django
-django-webpack-loader
+Django==2.0.6
+django-webpack-loader==0.6.0

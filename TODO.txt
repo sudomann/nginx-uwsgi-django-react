@@ -1,0 +1,8 @@
+Complying with the principle of least privilege:
+  - demote all processes/services to run as nonroot
+      e.g uwsgi. set uid:gid to 100:101
+  - have groups and for each service/function/process, with privileges
+  overlapping/crossing/exclusive where necessary
+      e.g gid:app-service being able to read entire app root,
+      but only gid:uid:react being able to write to /static/dir/ shared volume
+      even though all members of gid:react are members of gid:app-service
