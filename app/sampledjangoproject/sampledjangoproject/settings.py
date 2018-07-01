@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '1yy*@t2a)zjb)$=j*98s+7lxqib66&spq+j71_tdnx3c5zb*5p'
+SECRET_KEY = '3f+5)y=v(th=xh8be26ui1*sy3x=juw^qg0a84%5=dsgoqrcfi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'webpack_loader',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +55,7 @@ ROOT_URLCONF = 'sampledjangoproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates"), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,9 +119,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 STATIC_ROOT = os.path.join(BASE_DIR, "assets/bundles/")
 
 WEBPACK_LOADER = {
@@ -129,6 +127,3 @@ WEBPACK_LOADER = {
             'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.dev.json'),
         }
 }
-=======
->>>>>>> a3685d2614be12ed26448fe950f1b37d648260ce
->>>>>>> Stashed changes
