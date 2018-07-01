@@ -118,3 +118,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+STATIC_ROOT = os.path.join(BASE_DIR, "assets/bundles/")
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'bundles/',
+            'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.dev.json'),
+        }
+}
+=======
+>>>>>>> a3685d2614be12ed26448fe950f1b37d648260ce
+>>>>>>> Stashed changes

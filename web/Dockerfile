@@ -5,10 +5,11 @@ FROM nginx:1.14.0-alpine
 RUN apk update && apk add nginx
 
 # setup all the configfiles
-COPY nginx-app.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 COPY uwsgi_params /etc/nginx/
+COPY nginx-app.conf /etc/nginx/conf.d/default.conf
+
 
 #STOPSIGNAL SIGTERM
 
-CMD ["nginx", "-g", "daemon off;"]
-#ENTRYPOINT nginx -g daemon off;  WHATT WHYY HOWWW DOES THIS NOT WORK?????
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

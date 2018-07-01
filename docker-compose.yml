@@ -6,12 +6,32 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - type: volume
+        source: assets
+        target: /public/
+    depends_on:
+      - app
+      #- db
+    restart: unless-stopped
   app:
     build:
       context: ./app/
+    volumes:
+      - type: volume
+        source: assets
+        target: /home/base/sampledjangoproject/assets/ #TODO: turn into env var
+    depends_on:
+      - worker
+    restart: unless-stopped
   worker:
     build:
       context: ./worker/
+    restart: "no" #unless-stopped - change to this once it has code
   db:
     build:
       context: ./db/
+    restart: "no" #unless-stopped - change to this once it has code
+
+volumes:
+  assets:
