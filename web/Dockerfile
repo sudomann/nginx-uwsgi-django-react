@@ -1,4 +1,5 @@
-FROM nginx:1.14.0-alpine
+ARG WEB_SERVICE_BASE_IMG_TAG
+FROM nginx:$WEB_SERVICE_BASE_IMG_TAG
 #this^ was the stable as of 12:40 EST June 02 2018
 #FROM alpine:3.7
 

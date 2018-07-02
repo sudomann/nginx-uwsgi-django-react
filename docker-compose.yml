@@ -1,8 +1,11 @@
+#  common configurations between all environments
 version: '3.6'
 services:
   web:
     build:
       context: ./web/
+      args: # pass env vars from .env file to Dockerfile
+        - WEB_SERVICE_BASE_IMG_TAG=${WEB_SERVICE_BASE_IMG_TAG}
     ports:
       - "80:80"
       - "443:443"
@@ -13,25 +16,28 @@ services:
     depends_on:
       - app
       #- db
-    restart: unless-stopped
   app:
     build:
       context: ./app/
+      args: # pass env vars from .env file to Dockerfile
+        - APP_SERVICE_BASE_IMG_TAG=${APP_SERVICE_BASE_IMG_TAG}
+        - APP_SERVICE_ROOT_DIR=${APP_SERVICE_ROOT_DIR}
+        - DJANGO_PROJECT_NAME=${DJANGO_PROJECT_NAME}
+    environment: # pass env var from .env file to container
+      - APP_SERVICE_ROOT_DIR=${APP_SERVICE_ROOT_DIR}
+      - DJANGO_PROJECT_NAME=${DJANGO_PROJECT_NAME}
     volumes:
       - type: volume
         source: assets
-        target: /home/base/sampledjangoproject/assets/ #TODO: turn into env var
+        target: ${APP_SERVICE_ROOT_DIR}/${DJANGO_PROJECT_NAME}/assets/ #TODO: turn into env var
     depends_on:
       - worker
-    restart: unless-stopped
   worker:
     build:
       context: ./worker/
-    restart: "no" #unless-stopped - change to this once it has code
   db:
     build:
       context: ./db/
-    restart: "no" #unless-stopped - change to this once it has code
 
 volumes:
   assets:

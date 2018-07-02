@@ -1,4 +1,5 @@
-FROM alpine:3.7
+ARG APP_SERVICE_BASE_IMG_TAG
+FROM alpine:$APP_SERVICE_BASE_IMG_TAG
 
 RUN apk update && apk add \
   bash \
@@ -24,8 +25,8 @@ RUN apk update && apk add \
 # install uwsgi and create react app before any further changes, since these take a while
 RUN pip3 install uwsgi
 
-ENV APP_SERVICE_ROOT_DIR=/home/base/
-ENV DJANGO_PROJECT_NAME=sampledjangoproject
+ARG APP_SERVICE_ROOT_DIR
+ARG DJANGO_PROJECT_NAME
 
 # copy requirements.txt file in the directory containing this
 # Dockerfile (on host machine) to $APP_SERVICE_ROOT_DIR/ in the container's file system
@@ -44,18 +45,10 @@ COPY $DJANGO_PROJECT_NAME $APP_SERVICE_ROOT_DIR/$DJANGO_PROJECT_NAME/
 COPY requirements.txt uwsgi.ini app-entrypoint.sh $APP_SERVICE_ROOT_DIR
 RUN chmod +x app-entrypoint.sh
 
-# the `startproject` command below is to check that the
-# default django page show up on first run, confirming it works
-# Normally, you would copy your django project folder
-#into $APP_SERVICE_ROOT_DIR/ (in container)
-#RUN django-admin.py startproject $DJANGO_PROJECT_NAME .
-# uncomment the copy command above^ if
-# you don't already have a django project ready
-
 #these should be run in dev and not done in docker
 #RUN python3 $APP_SERVICE_ROOT_DIR/$DJANGO_PROJECT_NAME/manage.py migrate
 #RUN python3 $APP_SERVICE_ROOT_DIR/$DJANGO_PROJECT_NAME/manage.py collectstatic
 
 # start uwsgi
 #ENTRYPOINT $APP_SERVICE_ROOT_DIR/app-entrypoint.sh
-ENTRYPOINT env DJANGO_SETTINGS_MODULE=sampledjangoproject.production_settings uwsgi --master --ini $APP_SERVICE_ROOT_DIR/uwsgi.ini
+ENTRYPOINT uwsgi --master --ini $APP_SERVICE_ROOT_DIR/uwsgi.ini
