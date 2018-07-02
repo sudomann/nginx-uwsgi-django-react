@@ -1,0 +1,13 @@
+# Use as such: `docker-compose -f docker-compose.yml -f prod.yml build` or up
+version: '3.6'
+services:
+  web:
+    restart: unless-stopped
+  app:
+    environment: # pass env var from .env file to container
+      - DJANGO_SETTINGS_MODULE=${DJANGO_PROJECT_NAME}.${PROD_ENV}_settings
+    restart: unless-stopped
+  worker:
+    restart: "no" #unless-stopped - change to this once it has code
+  db:
+    restart: "no" #unless-stopped - change to this once it has code

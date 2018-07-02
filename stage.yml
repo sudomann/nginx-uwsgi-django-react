@@ -1,0 +1,2 @@
+# Use as such: `docker-compose -f docker-compose.yml -f prod.yml -f stage.yml build` or up
+version: '3.6'
