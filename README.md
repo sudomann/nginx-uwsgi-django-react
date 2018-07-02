@@ -2,6 +2,7 @@
 A multi container setup for a nginx-uwsgi-django deployment (construction in progress)
 
 ####INCOMPLETE, needs planning and complete rewrite
+*TODO*: might need to instruct to remote .git folder, so npm doesn't stop you from exploding and require git commit untracked changes
 
 ##Requirements##
 - Docker and Docker Compose
@@ -12,9 +13,10 @@ A multi container setup for a nginx-uwsgi-django deployment (construction in pro
 - Django
   It's normally recommended to install from your distribution's package manager, but those are usually not as current as the version you'll get by installing from pip
 - npm and npx
+- git
 
 ### How to deploy your application
-  While it's not required for this repository, it's recommended to create a virtual environment so packages installed from here don't interfere with your system packages. That, and installing npm, npx, pip and modifying system configuration so Docker does not run as root (as is good practice) are out of the scope of this exercise, so I won't go into how to do any of that.
+  While it's not required for this repository, it's recommended to create a virtual environment so packages installed from here don't interfere with your system packages. That, and installing npm, npx, pip, git and modifying system configuration so Docker does not run as root (as is good practice) are out of the scope of this exercise, so I won't go into how to do any of that.
 
 Clone this repository to your desired work directory on your machine with
 ```
