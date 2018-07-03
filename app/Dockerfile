@@ -44,6 +44,7 @@ WORKDIR $APP_SERVICE_ROOT_DIR/
 COPY $DJANGO_PROJECT_NAME $APP_SERVICE_ROOT_DIR/$DJANGO_PROJECT_NAME/
 COPY requirements.txt uwsgi.ini app-entrypoint.sh $APP_SERVICE_ROOT_DIR
 RUN chmod +x app-entrypoint.sh
+#COPY $DJANGO_PROJECT_NAME/static_dir/ $DJANGO_PROJECT_NAME/static_dir/
 
 #these should be run in dev and not done in docker
 #RUN python3 $APP_SERVICE_ROOT_DIR/$DJANGO_PROJECT_NAME/manage.py migrate

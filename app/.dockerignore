@@ -1,0 +1,17 @@
+# Random files
+*~
+\#*
+
+# exclude django's static_root folder. Enable this only when deploying, and collectstatic is being run within the container
+# */static_root/
+
+# Python compiled byte code
+*.pyc
+
+# SQLite3 database
+.sqlite
+
+# Node modules
+node_modules/
+yarn.lock
+npm-debug.log

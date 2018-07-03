@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
   app:
     environment: # pass env var from .env file to container
-      - DJANGO_SETTINGS_MODULE=${DJANGO_PROJECT_NAME}.${PROD_ENV}_settings
+      - DJANGO_SETTINGS_MODULE=${DJANGO_PROJECT_NAME}.settings.${PROD_ENV}
     restart: unless-stopped
   worker:
     restart: "no" #unless-stopped - change to this once it has code

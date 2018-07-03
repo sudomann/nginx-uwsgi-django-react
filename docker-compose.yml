@@ -11,8 +11,9 @@ services:
       - "443:443"
     volumes:
       - type: volume
-        source: assets
+        source: static_dir
         target: /public/
+        read_only: true
     depends_on:
       - app
       #- db
@@ -28,8 +29,8 @@ services:
       - DJANGO_PROJECT_NAME=${DJANGO_PROJECT_NAME}
     volumes:
       - type: volume
-        source: assets
-        target: ${APP_SERVICE_ROOT_DIR}/${DJANGO_PROJECT_NAME}/assets/ #TODO: turn into env var
+        source: static_dir
+        target: ${APP_SERVICE_ROOT_DIR}/${DJANGO_PROJECT_NAME}/static_dir/ #TODO: turn into env var
     depends_on:
       - worker
   worker:
@@ -40,4 +41,4 @@ services:
       context: ./db/
 
 volumes:
-  assets:
+  static_dir:
