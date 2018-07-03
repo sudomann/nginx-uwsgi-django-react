@@ -12,3 +12,4 @@ WEBPACK_LOADER = {
         }
 }
 SECRET_KEY = config('SECRET_KEY')
+STATIC_ROOT = config('STATIC_ROOT')
