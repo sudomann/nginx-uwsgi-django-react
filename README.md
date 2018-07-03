@@ -2,7 +2,8 @@
 A multi container setup for a nginx-uwsgi-django deployment (construction in progress)
 
 ####INCOMPLETE, needs planning and complete rewrite
-*TODO*: might need to instruct to remote .git folder, so npm doesn't stop you from exploding and require git commit untracked changes
+*TODO and notes as im going*: might need to instruct to remote .git folder, so npm doesn't stop you from ejecting and require git commit untracked changes
+        after modularizing settings, you need to wrap the value of BASE_DIR with one more `os.path.dirname()`
 
 ##Requirements##
 - Docker and Docker Compose
