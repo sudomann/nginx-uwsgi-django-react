@@ -6,7 +6,7 @@
 uwsgi-alt.ini
 
 # Contents of static_dir folder anywhere in repository
-**/static_dir/*/
+**/static_dir/*
 
 # Frontend folder anywhere in repository
 **/frontend
