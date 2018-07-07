@@ -10,7 +10,4 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY uwsgi_params /etc/nginx/
 COPY nginx-app.conf /etc/nginx/conf.d/default.conf
 
-
-#STOPSIGNAL SIGTERM
-
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

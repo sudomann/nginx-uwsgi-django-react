@@ -11,7 +11,7 @@ services:
       - "443:443"
     volumes:
       - type: volume
-        source: static_dir
+        source: static_root_deploy_folder
         target: /public/
         read_only: true
     depends_on:
@@ -29,8 +29,8 @@ services:
       - DJANGO_PROJECT_NAME=${DJANGO_PROJECT_NAME}
     volumes:
       - type: volume
-        source: static_dir
-        target: ${APP_SERVICE_ROOT_DIR}/${DJANGO_PROJECT_NAME}/static_dir/ #TODO: turn into env var
+        source: static_root_deploy_folder
+        target: ${APP_SERVICE_ROOT_DIR}/${DJANGO_PROJECT_NAME}/${STATIC_ROOT_DEPLOY_PATH}
     depends_on:
       - worker
   worker:
@@ -41,4 +41,4 @@ services:
       context: ./db/
 
 volumes:
-  static_dir:
+  static_root_deploy_folder:

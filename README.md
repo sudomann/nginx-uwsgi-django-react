@@ -1,11 +1,7 @@
 # nginx-uwsgi-django-react
-A multi container setup for a nginx-uwsgi-django deployment (construction in progress)
+A multi container setup for a nginx-uwsgi-django deployment
 
-####INCOMPLETE, needs planning and complete rewrite
-*TODO and notes as im going*: might need to instruct to remote .git folder, so npm doesn't stop you from ejecting and require git commit untracked changes
-        after modularizing settings, you need to wrap the value of BASE_DIR with one more `os.path.dirname()`
-
-##Requirements##
+##Requirements
 - Docker and Docker Compose
   `Docker version 18.05.0-ce` was used in building this repository
   After being installed, Docker might require root privileges to run
@@ -242,14 +238,18 @@ python manage.py runserver --settings=djangoproject.settings.prod
 
 If you check http://127.0.0.1:8000/, you'll see the same page which was rendered when webpack server was running. If you check the source code of the webpage, you'll see the js files are now being served directly through Django and not webpack (the browser looking for the `.js` and `.css` files at `localhost`).
 
-Important points
-It is better to `build` on your CI server or your deployment server instead on including in version control or source code.
+#Important points
+It is better to `build` on your CI server or your deployment server instead of including in version control or source code.
 
 Make sure you run `python3 manage.py collectstatic` after you build the js files, otherwise your webserver (NGINX, Apache, etc) won't be able to find the build files.
 
 Make sure your build generates a `webpack-stats.prod.json` file. If you are deploy by building the files manually, make sure you also include it when you're copying files from your machine to server.
 
 All the directory and file names specified above are not enforced in any sense. Feel free to change the directory location or file names to your liking, but make sure all config files are properly updated.
+
+Docker-compose files are already configured and ready to with this. Showing how to use docker-compose is out of the scope of this exercise. Docker has extensive reference and documentation at https://docs.docker.com/compose/compose-file/. See the the `.yml` files at the root of this repository to learn more about how to deploy in various environments.
+
+WARNING: Processes in the alpine based containers run with higher privileges than they need. If your application is security conscious, consider limiting their privileges.
 
 
 Please see http://v1k45.com/blog/modern-django-part-1-setting-up-django-and-react/ for a little more insightful explanation of this react configuration, and subsequent tutorials to extend the functionality of your project.
