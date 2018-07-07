@@ -1,2 +1,20 @@
-# necessary for local development environment only
+# Random files
+*~
+\#*
+
+# Necessary for local development environment only
 uwsgi-alt.ini
+
+# Contents of static_dir folder anywhere in repository
+**/static_dir/**
+
+# Frontend folder anywhere in repository
+**/frontend/
+
+# Node modules
+**/node_modules/
+**yarn.lock
+**npm-debug.log
+
+# SQLite3 database
+**.sqlite
