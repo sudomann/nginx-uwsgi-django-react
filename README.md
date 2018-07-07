@@ -36,11 +36,12 @@ python3 yourprojectname/manage.py runserver
 ```
 and ensure it's OK by visiting http://127.0.0.1 in your browser. If you see a default Django page, thens its okay and you can stop the Django development server using CTRL-C in terminal.
 
-Modularize your django project settings (so it's easy to switch from a development to production environment, etc.)
-
+Modularize your django project settings (so it's easy to switch from a development to production environment, etc.):
 ```
 cd yourprojectname/yourprojectname
-mv
+mkdir settings && mv settings.py settings/base.py
+cd settings
+touch dev.py prod.py stage.py __init__.py settings.ini
 ```
 
 
