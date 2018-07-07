@@ -11,9 +11,7 @@ A multi container setup for a nginx-uwsgi-django deployment (construction in pro
   After being installed, Docker might require root privileges to run
 - Python3 and pip3
   Some distributions don't bundle pip3 with their python3 so ensure you have it by running `pip3 --version`
-- Django
-  It's normally recommended to install from your distribution's package manager, but those are usually not as current as the version you'll get by installing from pip
-- npm and npx
+- npm
 - git
 
 ### How to deploy your application
@@ -23,31 +21,68 @@ Clone this repository to your desired work directory on your machine with
 ```
 git clone https://github.com/sudomann/nginx-uwsgi-django-react.git
 ```
-
 Then move into the right directory
 ```
-cd nginx-uwsgi-django-react/app/
+cd nginx-uwsgi-django-react/app/djangoproject
 ```
 
-Start a Django project,
-```
-django-admin startproject yourprojectname
-python3 yourprojectname/manage.py runserver
-```
-and ensure it's OK by visiting http://127.0.0.1 in your browser. If you see a default Django page, thens its okay and you can stop the Django development server using CTRL-C in terminal.
-
-Modularize your django project settings (so it's easy to switch from a development to production environment, etc.):
-```
-cd yourprojectname/yourprojectname
-mkdir settings && mv settings.py settings/base.py
-cd settings
-touch dev.py prod.py stage.py __init__.py settings.ini
-```
-
-
-###INTRODUCING REACT
+###INTRODUCING REACT AND WEBPACK
 We won't be directly writing webpack configuration ourselves though, we will use create-react-app to generate the project boilerplate with all the configurations in it. Think of create-react-app as django-admin startproject command you used to initialize you django project.
 
 For this, first we will install create-react-app sytem-wide using npm. Because we are installing system-wide, we will need superuser permissions.
+```
+sudo npm install -g create-react-app
+```
 
-$ sudo npm install -g create-react-app
+Now we create a react application and then `eject` so we can edit the config files.
+If you want, you can name your react project something else other than `frontend`, but wherever you see `frontend` from now on, you'll have to replace it with whatever name you chose
+```
+create-react-app frontend
+cd frontend
+npm run eject
+```
+Now check to confirm the following file structure is in place:
+```
+.
+├── config
+│   ├── env.js
+│   ├── jest
+│   │   ├── cssTransform.js
+│   │   └── fileTransform.js
+│   ├── paths.js
+│   ├── polyfills.js
+│   ├── webpack.config.dev.js
+│   ├── webpack.config.prod.js
+│   └── webpackDevServer.config.js
+├── package.json
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   └── manifest.json
+├── README.md
+├── scripts
+│   ├── build.js
+│   ├── start.js
+│   └── test.js
+└── src
+    ├── App.css
+    ├── App.js
+    ├── App.test.js
+    ├── index.css
+    ├── index.js
+    ├── logo.svg
+    └── registerServiceWorker.js
+```
+
+Now test to see if it works by running `npm run start`
+A browser should be launched, and a default page shown at http://localhost:3000
+![alt text](http://v1k45.com/images/modern-django-1-react-welcome.png "create-react-app default page")
+
+"This development server has hot loading enabled by default. This means any changes you do in you source files will be instantly reflected in the browser without you having to refresh the page manually again and again."
+
+
+
+
+
+
+Please see http://v1k45.com/blog/modern-django-part-1-setting-up-django-and-react/ for a little more explanation on this react configuration.
