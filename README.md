@@ -22,7 +22,7 @@ Then move into the right directory
 cd nginx-uwsgi-django-react/app/djangoproject
 ```
 
-###INTRODUCING REACT AND WEBPACK
+### Integrating React, Webpack, and Django
 We won't be directly writing webpack configuration ourselves though, we will use create-react-app to generate the project boilerplate with all the configurations in it. Think of create-react-app as django-admin startproject command you used to initialize you django project.
 
 For this, first we will install create-react-app sytem-wide using npm. Because we are installing system-wide, we will need superuser permissions.
@@ -158,7 +158,7 @@ export default App;
 
 
 
-##PRODUCTION configuration
+### Production configuration
 Remember "... the Django server will send XHR requests to http://localhost:3000 webpack server to check for source file changes..."?
 Well this works so far because when the browser loads the template, it checks for the necessary .js and .css files on the current machine. That's a problem in production, because it means in a browser, your template would be trying to load js and css files from the machine of users who loaded your site. This is only ideal for development, so we're gonna change that.
 
@@ -238,7 +238,7 @@ python manage.py runserver --settings=djangoproject.settings.prod
 
 If you check http://127.0.0.1:8000/, you'll see the same page which was rendered when webpack server was running. If you check the source code of the webpage, you'll see the js files are now being served directly through Django and not webpack (the browser looking for the `.js` and `.css` files at `localhost`).
 
-#Important points
+### Important Points
 It is better to `build` on your CI server or your deployment server instead of including in version control or source code.
 
 Make sure you run `python3 manage.py collectstatic` after you build the js files, otherwise your webserver (NGINX, Apache, etc) won't be able to find the build files.
