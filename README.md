@@ -1,7 +1,7 @@
 # nginx-uwsgi-django-react
 A multi container setup for a nginx-uwsgi-django deployment
 
-##Requirements
+### Requirements
 - Docker and Docker Compose
   `Docker version 18.05.0-ce` was used in building this repository
   After being installed, Docker might require root privileges to run
@@ -11,7 +11,7 @@ A multi container setup for a nginx-uwsgi-django deployment
 - git
 
 ### How to deploy your application
-  While it's not required for this repository, it's recommended to create a virtual environment so packages installed from here don't interfere with your system packages. That, and installing npm, npx, pip, git and modifying system configuration so Docker does not run as root (as is good practice) are out of the scope of this exercise, so I won't go into how to do any of that.
+  While it's not required for this repository, it's recommended to create a virtual environment so packages installed from here don't interfere with your system packages. That, and installing npm, pip, git and modifying system configuration so Docker does not run as root (as is good practice) are out of the scope of this exercise, so I won't go into how to do any of that.
 
 Clone this repository to your desired work directory on your machine with
 ```
@@ -23,9 +23,9 @@ cd nginx-uwsgi-django-react/app/djangoproject
 ```
 
 ### Integrating React, Webpack, and Django
-We won't be directly writing webpack configuration ourselves though, we will use create-react-app to generate the project boilerplate with all the configurations in it. Think of create-react-app as django-admin startproject command you used to initialize you django project.
+We won't be directly writing webpack configuration ourselves though, we will use `create-react-app` to generate the project boilerplate with all the configurations in it. Think of `create-react-app` as `django-admin startproject` command you used to initialize you django project.
 
-For this, first we will install create-react-app sytem-wide using npm. Because we are installing system-wide, we will need superuser permissions.
+For this, first we will install `create-react-app` sytem-wide using `npm`. Because we are installing system-wide, we will need superuser permissions.
 ```
 sudo npm install -g create-react-app
 ```
@@ -85,14 +85,14 @@ This installs a plugin that generates a file that Django uses in rendering the r
 Now, we will be making some react configuration changes for it to work with Django.
 *Anytime you're unsure of where to make an edit, consult the `reference` folder at the root of this repository. CTRL-f is your friend :)*
 
-Now, in your frontend/config/paths.js add the following key and value in the module.exports object.
+Now, in your `frontend/config/paths.js` add the following key and value in the module.exports object.
 ```
 module.exports = {
   // ... other values
   statsRoot: resolveApp('../'),
 }
 ```
-In frontend/config/webpack.config.dev.js change `publicPath` and `publicUrl` to http://localhost:3000/ as shown below:
+In `frontend/config/webpack.config.dev.js` change `publicPath` and `publicUrl` to http://localhost:3000/ as shown below:
 ```
 const publicPath = 'http://localhost:3000/';
 const publicUrl = 'http://localhost:3000/';
@@ -117,7 +117,7 @@ module.exports = {
 }
 ```
 
-"The reason of replacing webpackHotDevClient, publicPath and publicUrl is that we are going to serve webpack dev server's bundle on a django page, and we don't want webpack hot loader to send requests to wrong url/host.
+"The reason of replacing `webpackHotDevClient`, `publicPath` and `publicUrl` is that we are going to serve webpack dev server's bundle on a Django page, and we don't want webpack hot loader to send requests to wrong url/host.
 
 Now in `frontend/config/webpackDevServer.config.js` we need to allow the server to accept requests from external origins. http://127.0.01:8000 (Django server) will send XHR requests to http://localhost:3000 webpack server to check for source file changes.
 
