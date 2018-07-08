@@ -3,10 +3,10 @@ A multi container setup for a nginx-uwsgi-django deployment
 
 ### Requirements
 - Docker and Docker Compose
-  `Docker version 18.05.0-ce` was used in building this repository
-  After being installed, Docker might require root privileges to run
+  - *`Docker version 18.05.0-ce` was used in building this repository*
+  - *After being installed, Docker might require root privileges to run*
 - Python3 and pip3
-  Some distributions don't bundle pip3 with their python3 so ensure you have it by running `pip3 --version`
+  - *Some distributions don't bundle pip3 with their python3 so ensure you have it by running `pip3 --version`*
 - npm
 - git
 
