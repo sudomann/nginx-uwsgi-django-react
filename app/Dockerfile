@@ -28,29 +28,16 @@ RUN pip3 install uwsgi
 ARG APP_SERVICE_ROOT_DIR
 ARG DJANGO_PROJECT_NAME
 
-# copy requirements.txt file in the directory containing this
-# Dockerfile (on host machine) to $APP_SERVICE_ROOT_DIR/ in the container's file system
-# and install its contents
 COPY requirements.txt $APP_SERVICE_ROOT_DIR/
-# and then run pip install BEFORE adding the rest of your code
+# run pip install BEFORE adding the rest of your code
 # this will prevent Docker's caching mechanism from re-installing (all your)
 # dependencies when you make small changes to you requirements.txt file
 RUN pip3 install -r $APP_SERVICE_ROOT_DIR/requirements.txt
 
 WORKDIR $APP_SERVICE_ROOT_DIR/
-# copy all files in the directory containing this Dockerfile (on host machine)
-# to $APP_SERVICE_ROOT_DIR/ in the container's file system
-
 COPY $DJANGO_PROJECT_NAME $APP_SERVICE_ROOT_DIR/$DJANGO_PROJECT_NAME/
-COPY requirements.txt uwsgi.ini app-entrypoint.sh $APP_SERVICE_ROOT_DIR
-RUN chmod +x app-entrypoint.sh
-# It is better to `build` on your CI server or your deployment server instead of including in version control or source code.
-COPY $DJANGO_PROJECT_NAME/static_dir/ $DJANGO_PROJECT_NAME/static_dir/
-# these RUN commands below should be run in CI server or your deployment server
-# instead of including in version control or source code instead of the COPY instruction above ^
-#RUN python3 $APP_SERVICE_ROOT_DIR/$DJANGO_PROJECT_NAME/manage.py migrate
-#RUN python3 $APP_SERVICE_ROOT_DIR/$DJANGO_PROJECT_NAME/manage.py collectstatic
+COPY uwsgi.ini $APP_SERVICE_ROOT_DIR
 
-# start uwsgi
-COPY app-entrypoint.sh $APP_SERVICE_ROOT_DIR/app-entrypoint.sh
-ENTRYPOINT $APP_SERVICE_ROOT_DIR/app-entrypoint.sh
+ARG CURRENT_ENV
+COPY app-entrypoint-$CURRENT_ENV.sh $APP_SERVICE_ROOT_DIR/$DJANGO_PROJECT_NAME/
+RUN chmod +x $APP_SERVICE_ROOT_DIR/$DJANGO_PROJECT_NAME/app-entrypoint-$CURRENT_ENV.sh

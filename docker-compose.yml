@@ -27,10 +27,11 @@ services:
     environment: # pass env var from .env file to container
       - APP_SERVICE_ROOT_DIR=${APP_SERVICE_ROOT_DIR}
       - DJANGO_PROJECT_NAME=${DJANGO_PROJECT_NAME}
+      - STATIC_ROOT_FOLDER_NAME=${STATIC_ROOT_FOLDER_NAME}
     volumes:
       - type: volume
         source: static_root_deploy_folder
-        target: ${APP_SERVICE_ROOT_DIR}/${DJANGO_PROJECT_NAME}/${STATIC_ROOT_DEPLOY_PATH}
+        target: ${APP_SERVICE_ROOT_DIR}/${STATIC_ROOT_FOLDER_NAME}/
     depends_on:
       - worker
   worker:

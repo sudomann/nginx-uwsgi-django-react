@@ -4,8 +4,13 @@ services:
   web:
     restart: unless-stopped
   app:
+    build:
+      args: # pass env vars from .env file to Dockerfile
+        - CURRENT_ENV=${PROD_ENV}
     environment: # pass env var from .env file to container
       - DJANGO_SETTINGS_MODULE=${DJANGO_PROJECT_NAME}.settings.${PROD_ENV}
+      - CURRENT_ENV=${PROD_ENV}
+    entrypoint: ${APP_SERVICE_ROOT_DIR}/${DJANGO_PROJECT_NAME}/app-entrypoint-${PROD_ENV}.sh
     restart: unless-stopped
   worker:
     restart: "no" #unless-stopped - change to this once it has code

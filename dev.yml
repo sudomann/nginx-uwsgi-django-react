@@ -2,6 +2,11 @@
 version: '3.6'
 services:
   app:
+    build:
+      args: # pass env vars from .env file to Dockerfile
+        - CURRENT_ENV=${DEV_ENV}
     environment: # pass env var from .env file to container
-      - DJANGO_SETTINGS_MODULE=${DJANGO_PROJECT_NAME}.${DEV_ENV}_settings
+      - DJANGO_SETTINGS_MODULE=${DJANGO_PROJECT_NAME}.settings.${DEV_ENV}
+      - CURRENT_ENV=${DEV_ENV}
+    entrypoint: ${APP_SERVICE_ROOT_DIR}/${DJANGO_PROJECT_NAME}/app-entrypoint-${DEV_ENV}.sh
     restart: unless-stopped
