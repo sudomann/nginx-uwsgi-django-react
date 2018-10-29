@@ -1,5 +1,6 @@
-# nginx-uwsgi-django-react
+# [DEPRECATED] nginx-uwsgi-django-react
 A multi container setup for a nginx-uwsgi-django deployment
+*This repositiory is not actively developed anymore*
 
 ### Requirements
 - Docker and Docker Compose
